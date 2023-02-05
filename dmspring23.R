@@ -1,5 +1,5 @@
 #++++++++++++++++Data Mining SP23++++++++++++#
-#setwd("G:/My Drive/Spring23/ITC360/Datasets")
+setwd("G:/My Drive/Spring23/ITC360/Datasets")
 ###Upload the dataset to R 
 x=read.csv("datapreprocessing.csv")
 
@@ -11,7 +11,7 @@ names(x)
 
 
 #Chapter 2: Data pre processing
-#Inconsistent values
+  #Inconsistent values
 
 #Gender
 
@@ -26,6 +26,7 @@ x$Gender
 #Height  ##nature numerical 
 summary(x$Height)
 class(x$Height)
+x$Height
 
 x$Height=gsub("164 cm ", 164, x$Height)
 x$Height=gsub("186cm", 186, x$Height)
@@ -36,6 +37,7 @@ summary(x$Height)
 
 #Weight
 summary(x$Weight)
+x$Weight
 x$Weight=gsub("Male", NA, x$Weight)
 x$Weight
 class(x$Weight)
@@ -45,10 +47,10 @@ summary(x$Weight)
 
 ##
 x=read.csv("datapreprocessing.csv")
-view(x)
+View(x)
 x_height=x$Height
 class(x_height)
-x_height=as.character(x_height)
+
 x_height
 x_height=replace(x_height, x_height %in% c("186cm", "164 cm "), c(186, 164))
 x_height
@@ -56,18 +58,19 @@ x_height=as.numeric(x_height)
 summary(x_height)
 
 #Chapter 2: Data pre processing
-#Duplicated rows 
+  #Duplicated rows 
 x=read.csv("datapreprocessing.csv")
-view(x)
+View(x)
 ##package tidyverse
 library(tidyverse)
 dp_value=duplicated(x)
+dp_value
 table(dp_value)
 
 
-##Lets introduce some duplcated objects (rows)
+##Lets introduce some duplicated objects (rows)
 dp_rows=x[c(1,2), ]
-view(dp_rows)
+View(dp_rows)
 
 y=rbind(x, dp_rows)
 View(y)
@@ -83,9 +86,9 @@ y_dup=duplicated(y_unique)
 table(y_dup)
 
 #Chapter 2: Data pre processing
-#Missing Values
+  #Missing Values
 
-#install.packages("mice")
+install.packages("mice")
 library(mice)
 
 x=read.csv("navalues.csv")
@@ -97,10 +100,9 @@ colSums(is.na(x))   #it gives the # of NAs in each col.
 sum(is.na(x$Gender))  #for indiv col.
 sum(is.na(x$Weight))
 
-library(mice)
 md.pattern(x)
 
-##to take care of the missing values mitigation
+#How to deal with missing values
 y=x
 View(y)
 
@@ -113,21 +115,23 @@ md.pattern(y_new)
 dim(y_new)
 dim(y)
 8/20   ##if you remove about 5% of your objects---you are still fine
+
 ##for our analysis  we work only with Gender and Height
-y_gen_height=data.frame(y$Gender, y$Height)
-names(y_gen_height)=c("Gender", "Height")
-View(y_gen_height)
 
-colSums(is.na(y_gen_height))
-y_gen_height=na.omit(y_gen_height)
-dim(y_gen_height)
-colSums(is.na(y_gen_height))
+y_gen_gpa=data.frame(y$Gender, y$GPA)
+names(y_gen_gpa)=c("Gender", "GPA")
+View(y_gen_gpa)
 
+colSums(is.na(y_gen_gpa))
+y_gen_gpa=na.omit(y_gen_gpa)
+dim(y_gen_gpa)
+colSums(is.na(y_gen_gpa))
+md.pattern(y_gen_gpa)
 ###calculations in the presence of NAs
-mean(x$Height, na.rm=T)
-sum(is.na(x$Weight))
-mean(x$Weight, na.rm = T)
-
+mean(x$GPA, na.rm=T)
+sum(is.na(x$GPA))
+mean(x$GPA, na.rm = T)
+var(x$GPA, na.rm = T)
 
 
 ####Very very very very important discussion here
@@ -160,7 +164,7 @@ View(x.cmpl)
 write.csv(x.cmpl, file = "no_na_values.csv")
 
 #Chapter 2: Data pre processing
-#out-liers
+  #out-liers
 
 x=read.csv("no_na_values.csv")
 View(x)
@@ -190,7 +194,7 @@ x_new_height=x[x$Height>58, ]
 boxplot(x_new_height$Height, horizontal = T)
 
 #Chapter 2: Data pre processing
-#generating new attributes
+  #data transformations
 
 names(x)
 ##Height in cm>>>generate a new var height in foot/feet
