@@ -9,7 +9,6 @@ dim(x)
 ##name of attributes
 names(x)
 
-
 #Chapter 2: Data pre processing
   #Inconsistent values
 
@@ -38,6 +37,7 @@ summary(x$Height)
 #Weight
 summary(x$Weight)
 x$Weight
+table(x$Weight)
 x$Weight=gsub("Male", NA, x$Weight)
 x$Weight
 class(x$Weight)
@@ -50,6 +50,7 @@ x=read.csv("datapreprocessing.csv")
 View(x)
 x_height=x$Height
 class(x_height)
+
 
 x_height
 x_height=replace(x_height, x_height %in% c("186cm", "164 cm "), c(186, 164))
@@ -88,7 +89,7 @@ table(y_dup)
 #Chapter 2: Data pre processing
   #Missing Values
 
-install.packages("mice")
+#install.packages("mice")
 library(mice)
 
 x=read.csv("navalues.csv")
@@ -146,12 +147,15 @@ t.test(x$Height~dum_na)   ##Hence no association, i.e. random missing values
 ##mice package
 help("mice")
 
-x.fill=mice(x, method = 'polr')
+x.fill=mice(x)
 x.cmpl=complete(x.fill)
 colSums(is.na(x.cmpl))
 View(x.cmpl)
+md.pattern(x.cmpl)
+x.nona=na.omit(x.cmpl)
+View(x.nona)
+write.csv(x.nona, file = "no_na_values.csv")
 
-write.csv(x.cmpl, file = "no_na_values.csv")
 
 #Chapter 2: Data pre processing
   #outliers
