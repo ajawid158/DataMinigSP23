@@ -106,7 +106,7 @@ md.pattern(x)
 y=x
 View(y)
 
-##omit the rows with missing values>>> the easiest way to deal NAs
+#1: omit the rows with missing values>>> the easiest way to deal NAs
 y_new=na.omit(y)
 
 View(y_new)
@@ -116,21 +116,11 @@ dim(y_new)
 dim(y)
 8/20   ##if you remove about 5% of your objects---you are still fine
 
-##for our analysis  we work only with Gender and Height
-
-y_gen_gpa=data.frame(y$Gender, y$GPA)
-names(y_gen_gpa)=c("Gender", "GPA")
-View(y_gen_gpa)
-
-colSums(is.na(y_gen_gpa))
-y_gen_gpa=na.omit(y_gen_gpa)
-dim(y_gen_gpa)
-colSums(is.na(y_gen_gpa))
-md.pattern(y_gen_gpa)
 ###calculations in the presence of NAs
-mean(x$GPA, na.rm=T)
 sum(is.na(x$GPA))
-mean(x$GPA, na.rm = T)
+mean(x$GPA)
+mean(x$GPA, na.rm=T)
+median(x$GPA, na.rm = T)
 var(x$GPA, na.rm = T)
 
 
@@ -144,19 +134,19 @@ sum(is.na(x$Weight))
 
 dum_na=is.na(x$Weight)  #binary variable recall from ITC 255
 dum_na 
-
+table(dum_na)
 #Variable Gender: 
-
+#test whether dum_na and Gender are associated
 #Gender is QL  and dum_na is QL(binary)
 #which test of association we use here>>>Chi-square test 
 chisq.test(x$Gender, dum_na)  #No association, i.e. random missing values
 ##Height (ANT) and dum_na (Binary) >>>t-test 
 t.test(x$Height~dum_na)   ##Hence no association, i.e. random missing values
-
 ###if the missing values are at random then we can impute them>>estimate them
 ##mice package
+help("mice")
 
-x.fill=mice(x)
+x.fill=mice(x, method = 'polr')
 x.cmpl=complete(x.fill)
 colSums(is.na(x.cmpl))
 View(x.cmpl)
@@ -164,7 +154,7 @@ View(x.cmpl)
 write.csv(x.cmpl, file = "no_na_values.csv")
 
 #Chapter 2: Data pre processing
-  #out-liers
+  #outliers
 
 x=read.csv("no_na_values.csv")
 View(x)
