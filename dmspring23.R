@@ -222,6 +222,7 @@ for (i in 1:length(x$Gender)){
   }
 }
 
-
 x=cbind(x, Gender_new)
 View(x)
+
+
