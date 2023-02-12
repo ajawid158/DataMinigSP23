@@ -86,8 +86,10 @@ y_unique=unique(y)
 y_dup=duplicated(y_unique)
 table(y_dup)
 
-#Chapter 2: Data pre processing
-  #Missing Values
+
+
+#+Chapter 2: Data pre processing+#
+  #Missing Values#
 
 #install.packages("mice")
 library(mice)
@@ -99,11 +101,10 @@ View(x)   ##missing values present
 is.na(x)
 colSums(is.na(x))   #it gives the # of NAs in each col.
 sum(is.na(x$Gender))  #for indiv col.
-sum(is.na(x$Weight))
 
 md.pattern(x)
 
-#How to deal with missing values
+      #+How to deal with missing values+
 y=x
 View(y)
 
@@ -125,23 +126,30 @@ median(x$GPA, na.rm = T)
 var(x$GPA, na.rm = T)
 
 
-####Very very very very important discussion here
-##systematic missing values vs Random missing values 
+#+++Very very very very important discussion here+++
+
+    #+systematic missing values vs Random missing values+# 
 View(x)
 
-##test for random/syst missing values 
+    #+test for random OR systematic Missing Values 
 ##Weight 
 sum(is.na(x$Weight))
 
 dum_na=is.na(x$Weight)  #binary variable recall from ITC 255
 dum_na 
 table(dum_na)
+
+#Check whether missing values on Weight is related to Gender+
 #Variable Gender: 
 #test whether dum_na and Gender are associated
 #Gender is QL  and dum_na is QL(binary)
 #which test of association we use here>>>Chi-square test 
 chisq.test(x$Gender, dum_na)  #No association, i.e. random missing values
-##Height (ANT) and dum_na (Binary) >>>t-test 
+
+
+#Check whether missing values on Weight is related to Height+
+#Binary and QNT>t-test
+
 t.test(x$Height~dum_na)   ##Hence no association, i.e. random missing values
 ###if the missing values are at random then we can impute them>>estimate them
 ##mice package
@@ -153,12 +161,12 @@ colSums(is.na(x.cmpl))
 View(x.cmpl)
 md.pattern(x.cmpl)
 x.nona=na.omit(x.cmpl)
-View(x.nona)
-write.csv(x.nona, file = "no_na_values.csv")
+md.pattern(x.nona)
+#write.csv(x.nona, file = "no_na_values.csv")
 
 
-#Chapter 2: Data pre processing
-  #outliers
+#+Chapter 2: Data pre processing
+  #+outliers
 
 x=read.csv("no_na_values.csv")
 View(x)
