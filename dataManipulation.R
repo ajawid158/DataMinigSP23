@@ -5,7 +5,7 @@ library(dplyr)
 #The dataset smoker
 dfTips=read.csv(url('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv'))
 names(dfTips)
-<<<<<<< HEAD
+
 head(dfTips)
 dim(dfTips)
 #filter
@@ -13,18 +13,18 @@ fCustomers=filter(dfTips, sex=="Female", smoker=='No')  #Females who do not smok
 head(fCustomers)
 View(fCustomers)
 
-=======
+
 #filter
 fCustomers=filter(dfTips, sex=="Female", smoker=='No')
 head(fCustomers)
 #data manipulation with dplyr package
 #filter 
->>>>>>> a4dcadb8e268c240c0657df9a78db6156dd70df5
+
 #logical operators &, |, !
 unique(dfTips$day)
 weekend=filter(dfTips, day=='Sun'| day=='Sat')
 head(weekend)
-<<<<<<< HEAD
+
 View(weekend)
 #Females visited on the weekend
 
@@ -34,7 +34,7 @@ View(weekendFemale)
 #Weekdays 
 weekdayCs=filter(dfTips, day !='Sun'& day!='Sat')
 View(weekdayCs)
-=======
+
 
 #weekend and female
 weekendFemale=filter(dfTips, (day=='Sun'|day=='Sat') & sex=='Female')
@@ -43,12 +43,12 @@ weekendFemale
 #Weekdays 
 weekdayCs=filter(dfTips, day != (day=='Sun'|day=='Sat'))
 weekdayCs
->>>>>>> a4dcadb8e268c240c0657df9a78db6156dd70df5
+
 
 #use the function %in%
 unique(dfTips$size)
 
-<<<<<<< HEAD
+
 filter(dfTips, size %in% c(5,6,4))
 filter(dfTips, day %in% c('Sun','Sat'))  
 
@@ -66,7 +66,7 @@ select(dfTips, size, everything())
 
 select(dfTips, tip:smoker)
 
-=======
+
 filter(dfTips, size %in% c(5,6))
 filter(dfTips, day %in% c('Sun','Sat'))
 
@@ -78,13 +78,12 @@ names(dfTips)
 select(dfTips, c(total_bill, tip, size))
 select(dfTips, size, everything())
 select(dfTips, tip:smoker)
->>>>>>> a4dcadb8e268c240c0657df9a78db6156dd70df5
+
 select(dfTips, -(tip:smoker))
 
 #+++++++++++++++++#
 #data manipulation with dplyr package
-<<<<<<< HEAD
-=======
+
 #rename
 names(dfTips)
 dfTips1=rename(dfTips, bill=total_bill)
@@ -93,7 +92,7 @@ head(dfTips1)
 
 #+++++++++++++++++#
 #data manipulation with dplyr package
->>>>>>> a4dcadb8e268c240c0657df9a78db6156dd70df5
+
 #mutate
 head(dfTips)
 #total spending=total_bill+tip
@@ -103,7 +102,7 @@ head(mutate(dfTips, total_cost=total_bill+tip))
 #data manipulation with dplyr package
 #summarize
 summarise(dfTips, mean(total_bill), mean(tip))
-<<<<<<< HEAD
+
 summarise(dfTips, mean(tip), median(tip), sd(tip))
 
 genderdf=group_by(dfTips, sex)
@@ -115,34 +114,34 @@ summarise(genderdf, mean(total_bill), sd(total_bill))
 names(dfTips)
 df1=rename(dfTips, bill=total_bill)
 head(df1)
-=======
+
 
 gender=group_by(dfTips, sex)
 summarise(gender, mean(total_bill), sd(total_bill))
 
-
->>>>>>> a4dcadb8e268c240c0657df9a78db6156dd70df5
 #+++++++++++++++++#
 #data manipulation with dplyr package
 #pull a column as a vector 
 gender = pull(dfTips, sex)
 
-<<<<<<< HEAD
+
 head(gender)
-=======
+
 gender
->>>>>>> a4dcadb8e268c240c0657df9a78db6156dd70df5
+
 
 #+++++++++++++++++#
 #data manipulation with dplyr package
 #sample_n
 dim(dfTips)
-<<<<<<< HEAD
+
 dim(dfTips)
 sampledfTips=sample_n(dfTips, 100)
 head(sampledfTips)
 View(sampledfTips)
-=======
+
 sampledfTips=sample_n(dfTips, 100)
 head(sampledfTips)
->>>>>>> a4dcadb8e268c240c0657df9a78db6156dd70df5
+
+samplenew=sample_n(dfTips, 200)
+head(samplenew)
