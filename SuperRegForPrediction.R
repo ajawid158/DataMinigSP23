@@ -3,7 +3,7 @@
 #1.Regression and Prediction############################
 
 
-=======
+
   getwd()
 
 setwd("G:/My Drive/Spring23/ITC360/Datasets/DMSP23/DataMinigSP23")
