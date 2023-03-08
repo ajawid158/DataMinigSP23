@@ -5,6 +5,10 @@ x=read.csv("employee.csv")
 names(x)
 dim(x)
 names(x)
+#
+s=sample(nrow(x), 24)
+x.train=x[s,]
+x.test=x[-s,]
 ###Model 0
 L.m0=glm(Gymcode~Age, family = "binomial", data = x.train)
 x.fit=fitted(L.m0, x.train)
