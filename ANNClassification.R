@@ -10,8 +10,8 @@ head(g)
 #problem: classify the students in A or NotA using thier
 #MT score and Q Score
 
-x=data.frame(g$MT, g$Q, g$Grade)
-colnames(x)=c("MT", "Q", "Grade")
+x=data.frame(g$Oral, g$Q, g$Grade)
+colnames(x)=c("Oral", "Q", "Grade")
 head(x)
 #Split the dataset x into training and test
 
@@ -24,7 +24,7 @@ head(x.test.y)
 
 ##Run the ANN classification Model
 
-nn=neuralnet(Grade~MT+Q, data =x.train, hidden = 3,
+nn=neuralnet(Grade~Oral+Q, data =x.train, hidden = 3,
              act.fct = "logistic", linear.output = FALSE)
 plot(nn)
 
@@ -35,18 +35,18 @@ pr.test=compute(nn, x.test)
 p1=pr.test$net.result
 head(p1)
 pred=ifelse(p1>0.5, 1, 0)  ###dummy variable
-
+pred
 table(x.test.y, pred)   ##confussion matrix
 
-Err.rate=5/NROW(x.test)
+Err.rate=2/NROW(x.test)
 Err.rate
 
 ###Use the ANN model to classify new students
 
-MT=c(94, 90, 60)
-Q=c(97, 50, 70)
+Oral=c(94, 89, 60)
+Q=c(97, 88, 70)
 
-new.st=data.frame(cbind(MT, Q))
+new.st=data.frame(cbind(Oral, Q))
 head(new.st)
 pr.test=compute(nn, new.st)
 
