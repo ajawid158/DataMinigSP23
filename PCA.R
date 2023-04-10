@@ -21,6 +21,10 @@ plot(fv_pca, type="l")
 
 pca_select=fv_pca$x
 head(pca_select)
+dim(pca_select)
+
+head(pca_select)
+
 pca_new=pca_select[,c(1,2)] %>%
   as.data.frame()
 View(pca_new)
@@ -30,11 +34,15 @@ fv=fv%>%
   cbind(pca_new)
 View(fv)
 cor(fv$PC1, fv$PC2)
+
 #++++++++++++++++NEW DATASET+++++++++++++#
+
+
 y=read.csv("rainfall.csv")
-view(y)
+View(y)
 names(y)
 cr.y=cor(y)
+cr.y
 corrplot(cr.y, method = "pie", 
          type="lower")
 y.rain.winter=y %>%
