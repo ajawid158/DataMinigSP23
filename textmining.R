@@ -6,21 +6,26 @@ library(dplyr)
 #install.packages('pacman')
 #install.packages('qdap')
 library(qdap)
-library(qdapTools)
-library(tidyverse)
+#library(qdapTools)
+#library(tidyverse)
+#upload the dataset.
+
 ibis=read.csv("ibishotel.csv", stringsAsFactors = FALSE)
 View(ibis)
 str(ibis)
+head(ibis)
 
 ibis=ibis %>%
   mutate(positive=Rating>3)
 head(ibis)
+View(ibis)
 
 ibis=ibis %>%
   mutate(y=ifelse(positive==F, 0, 1))
 head(ibis)
+View(ibis)
 
-fr=freq_terms(ibis$Reviews,50)
+fr=freq_terms(ibis$Reviews,20) #top 20 most frequent terms
 fr
 plot(fr)
 
@@ -30,8 +35,8 @@ ibiscrp=Corpus(VectorSource(ibis$Reviews))
 inspect(ibiscrp)
 
 #view the review
-ibiscrp[[3]]$content
-content(ibiscrp[[2]])
+ibiscrp[[2]]$content
+content(ibiscrp[[20]])
 
 ##Pre-processing
 ##lower case
@@ -66,10 +71,13 @@ ibiscrp = ibiscrp %>%
   tm_map(stripWhitespace)
 ibiscrp[[2]]$content
 
-fr=freq_terms(ibiscrp, 10)
+fr=freq_terms(ibiscrp, 50)
 plot(fr)
 fr
 
+
+
+###customers feedback on Apple's product
 
 t=read.csv("tweets.csv", stringsAsFactors = FALSE)
 ##structure of data 
@@ -85,11 +93,10 @@ dim(t)
 #View(term_count)
 tfreq=freq_terms(t$Tweet, 10)
 plot(tfreq)
-##curpus
+##curpus//set of documents
 crps=Corpus(VectorSource(t$Tweet))
-view(crps)
-crps[3]
-crps[[1]]$content
+
+crps[[3]]$content
 
 
 ##preprocessing
@@ -120,38 +127,53 @@ crps = crps %>%
   tm_map(stripWhitespace)
 crps[[2]]$content
 
-##+++++++++++++++++++++++++++++++++++++++++++++##
-#                                               #
-#  DAy 21: Bag of Words>Wrod Frequency          #
-#                                               #
-##++++++++++++++++++++++++++++++++++++++++++++++#
+x=freq_terms(crps, 20)
+plot(x)
 
-freq=DocumentTermMatrix(crps)
+#Features extraction
+
+freq=DocumentTermMatrix(crps)  #transform the words into Features
 freq
-inspect(freq[1:10,1:5])
-findFreqTerms(freq, lowfreq = 20)
 
-freq1=removeSparseTerms(freq, 0.995)
+inspect(freq[1:10,1:5])   ##first 10 rows of the first 5 cols
+inspect(freq)
+
+findFreqTerms(freq)
+x=findFreqTerms(freq, lowfreq = 50)   ### create a sub matrix with at least 20 times mentioned
+length(x)
+
+#Take care of so many terms/columns/features with so many 0s/not mentioned many times, high sparsity
+#
+
+freq1=removeSparseTerms(freq, 0.98)  #keep terms which are mentioned in 2% or more of the reviews 100%-99%=1% 
 freq1
 tspar=as.data.frame(as.matrix(freq1))
+head(tspar)
+dim(tspar)
 colnames(tspar)=make.names(colnames(tspar))
 View(tspar)
-
+sum(tspar$best)   #how many times best is mentioned
 hist(tspar$iphon)
 
 
 
 
 
+
+
+
+#End of today's session
+
 ##Supervised Learning
+#install.packages("caTools")
+library(caTools)
 
 tspar=tspar %>%
   cbind(t$Negative)
 View(tspar)
 dim(tspar)
 sum(tspar$care)
-install.packages("caTools")
-library(caTools)
+
 set.seed(123)
 splt=sample.split(tspar$`t$Negative`, SplitRatio = 0.7)
 train=subset(tspar, splt==TRUE)
@@ -179,9 +201,7 @@ table(test$`t$Negative`, round(predictRF))
 #  DAy 20: Bag of Words>Preprocessing           #
 #                                               #
 ##++++++++++++++++++++++++++++++++++++++++++++++#
-###Bag of words 
-setwd("C:/Users/Jawid/Desktop/AUAF/Summer 2021/ITC360/Datasets")
-#do install the packages
+#required packages
 library(tm)
 library(SnowballC)
 library(dplyr)
