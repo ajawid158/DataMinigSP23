@@ -157,14 +157,7 @@ hist(tspar$iphon)
 
 
 
-
-
-
-
-
-#End of today's session
-
-##Supervised Learning
+##Sentiment Analysis
 #install.packages("caTools")
 library(caTools)
 
@@ -187,18 +180,13 @@ prp(tweetcart)
 predcart=predict(tweetcart, newdata=test, type="class")
 table(test$`t$Negative`, pred)
 
-install.packages("randomForest")
-library(randomForest)
-set.seed(123)
-tweetRF=randomForest(`t$Negative`~., data = train)
-predictRF=predict(tweetRF, newdata=test)
-round(predictRF)
-table(test$`t$Negative`, round(predictRF))
+
 
 
 ##+++++++++++++++++++++++++++++++++++++++++++++##
 #                                               #
-#  DAy 20: Bag of Words>Preprocessing           #
+#  Sentiment Analysis with ibis Hotel data      #
+#            19. April. 2023
 #                                               #
 ##++++++++++++++++++++++++++++++++++++++++++++++#
 #required packages
@@ -257,12 +245,6 @@ plot(fr1)
 View(ibiscr)
 
 
-
-##+++++++++++++++++++++++++++++++++++++++++++++##
-#                                               #
-#  DAy 22: Bag of Words>Feature extraction      #
-#                                               #
-##++++++++++++++++++++++++++++++++++++++++++++++#
 #Feature Extraction 
 ibisfreq=DocumentTermMatrix(ibiscr)
 
